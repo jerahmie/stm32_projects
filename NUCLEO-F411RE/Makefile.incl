@@ -4,7 +4,7 @@
 
 PREFIX		?= arm-none-eabi
 
-TOP_DIR 	:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+TOP_DIR		:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 OPENCM3_DIR 	:= $(abspath $(dir $(abspath $(lastword $(MAKEFILE_LIST))))/libopencm3)
 
 LIBNAME		= opencm3_stm32f4
@@ -12,7 +12,7 @@ DEFS		+= -DSTM32F4
 
 #FP_FLAGS	?= -msoft-float
 FP_FLAGS	?= -mhard-float
-ARCH_FLAGS	= -mthumb -mcpu=cortex-m4 $(FP_FLAGS) 
+ARCH_FLAGS	= -mthumb -mcpu=cortex-m4 $(FP_FLAGS)
 ASFLAGS		= -mthumb -mcpu=cortex-m4
 
 CC		:= $(PREFIX)-gcc
@@ -35,7 +35,7 @@ TEMP1 		= $(patsubst %.c,%.o,$(SRCFILES))
 TEMP2		= $(patsubst %.asm,%.o,$(TEMP1))
 OBJS 		= $(patsubst %.cpp,%.o,$(TEMP2))
 
-LDSCRIPT	?= $(TOP_DIR)/stm32f401ccu6.ld
+LDSCRIPT	?= $(TOP_DIR)/stm32f411ret6u.ld
 
 TGT_CFLAGS	+= $(OPT) $(CSTD)
 TGT_CFLAGS	+= $(ARCH_FLAGS)
@@ -43,7 +43,7 @@ TGT_CFLAGS	+= -Wextra -Wshadow -Wimplicit-function-declaration
 TGT_CFLAGS	+= -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes
 TGT_CFLAGS	+= -fno-common -ffunction-sections -fdata-sections
 TGT_CFLAGS	+= -I$(OPENCM3_DIR)/include
-TGT_CFLAGS	+= -I$(TOP_DIR)/rtos/libwwg/include
+#TGT_CFLAGS	+= -I$(TOP_DIR)/rtos/libwwg/include
 
 TGT_CXXFLAGS	+= $(OPT) $(CXXSTD)
 TGT_CXXFLAGS	+= $(ARCH_FLAGS)
@@ -54,7 +54,7 @@ TGT_CPPFLAGS	+= -MD
 TGT_CPPFLAGS	+= -Wall -Wundef
 TGT_CPPFLAGS	+= $(DEFS)
 TGT_CPPFLAGS	+= -I$(OPENCM3_DIR)/include
-TGT_CPPFLAGS	+= -I$(TOP_DIR)/rtos/libwwg/include
+#TGT_CPPFLAGS	+= -I$(TOP_DIR)/rtos/libwwg/include
 
 TGT_LDFLAGS	+= --static -nostartfiles
 TGT_LDFLAGS	+= -T$(LDSCRIPT)
@@ -64,7 +64,7 @@ TGT_LDFLAGS	+= -Wl,--gc-sections
 
 LDLIBS		+= -specs=nosys.specs
 LDLIBS		+= -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
-LDLIBS		+= -L$(TOP_DIR)/rtos/libwwg -lwwg
+#LDLIBS		+= -L$(TOP_DIR)/rtos/libwwg -lwwg
 LDLIBS		+= -L$(OPENCM3_DIR)/lib -lopencm3_stm32f4
 
 .SUFFIXES:	.elf .bin .hex .srec .list .map .images
